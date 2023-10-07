@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display">
+    <title>College Fee Payment</title>
+</head>
+<body>
+    <header>
+        <h1><b>Welcome, <span id="user-name"></span></b></h1>
+        <p>Roll No: <span id="user-rollno"></span></p>
+        <p>Branch: <span id="user-branch"></span></p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="/paymentHistory" class="nav-button">Payment History</a></li>
+            <li><a href="javascript:logout();" class="nav-button">Logout</a></li>
+
+        </ul>
+    </nav>
+
+    <div class="logo-image">
+        <img src="dyp_logo.png" alt="Logo">
+    </div>
+
+
+    <section id="fees" class="fee-section">
+        <h2><b>Fee Information:</b></h2>
+        <div class="fee-details">
+            <p><strong>Deadline:</strong> 20/10/2023</p>
+            <p><strong>Paid:</strong> NO</p>
+            <p><strong>Fine Imposed:</strong> YES [5 Days]</p>
+            <p><strong>Scholarship:</strong> YES [Ez-Grantz]</p>
+            <button type="submit" class="download-button">PAY NOW</button>
+        </div>
+    </section>
+    
+
+    <footer>
+        <p>&copy; 2023 College Fee Payment Project</p>
+    </footer>
+<script>
+    // Fetch and parse the user_data cookie
+const userCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_data='));
+if (userCookie) {
+    const cookieValue = userCookie.split('=')[1];
+    try {
+        const userData = JSON.parse(decodeURIComponent(cookieValue));
+        // Display user data in the header
+        document.getElementById('user-name').textContent = userData.name || '';
+        document.getElementById('user-rollno').textContent = userData.rollno || '';
+        document.getElementById('user-branch').textContent = userData.course || '';
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+    }
+}
+
+
+    // Disable the back button functionality
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, null, window.location.href);
+    };
+
+// Log out function
+function logout() {
+    // Perform the logout action (e.g., clear session/cookies) by changing its epxiration date to 1970
+    document.cookie = 'user_data=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // Redirect the user to the login page
+    window.location.href = '/login'; // Replace with the correct login page URL
+}
+</script>
+
+
+ <style>
+
+body, h1, h2, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background-image: url(dy-login_bg.png);
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+
+</style>
+</body>
+</html>

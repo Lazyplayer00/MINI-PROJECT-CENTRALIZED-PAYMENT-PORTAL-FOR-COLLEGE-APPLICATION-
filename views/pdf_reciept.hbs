@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fee Receipt</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .receipt {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+
+  .receipt-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .receipt-header h1 {
+    color: #a51818; /* University's blue color */
+    font-size: 28px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .receipt-header h2 {
+    font-size: 20px;
+    margin: 5px 0;
+    color: #333; /* Darker text color */
+  }
+
+  .receipt-body {
+    padding: 20px;
+  }
+
+  .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .receipt-table th,
+  .receipt-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+  }
+
+  .student-details th {
+    width: 30%;
+  }
+
+  .receipt-table th {
+    background-color: #f5f5f5;
+  }
+
+  .receipt-table td {
+    background-color: #ffffff;
+  }
+
+  .receipt-table td.total {
+    font-weight: bold;
+    background-color: #f5f5f5;
+  }
+
+  .print_button {
+    font-size: 20px;
+    margin-left: 44%;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #a51818;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .print_button:hover {
+    background-color: #c23232; /* Darker shade of blue on hover */
+  }
+</style>
+
+</head>
+</head>
+<body>
+  <div id="plz" class="receipt">
+    <div class="receipt-header">
+      <h1>Ramrao Adik Institute of Technology</h1>
+      <h2>D. Y. Patil University </h2>
+      <img src="dyp_logo.png" alt="University Logo" class="logo">
+      <h2>Fee Receipt</h2>
+    </div>
+
+    <table class="receipt-table student-details">
+        <tr>
+          <th>Student Name:</th>
+          <td id="studentName">[Name]</td>
+        </tr>
+        <tr>
+          <th>Roll Number:</th>
+          <td id="rollNumber">[Roll No.]</td>
+        </tr>
+        <tr>
+          <th>Division:</th>
+          <td>SE-A</td> <!-- Leave Division as it is -->
+        </tr>
+        <tr>
+          <th>Course:</th>
+          <td id="course">[Course]</td>
+        </tr>
+        <tr>
+            <th>Mode of Payment:</th>
+            <td id="modeOfPayment">Online</td>
+          </tr>
+      </table>
+
+    <div class="receipt-body">
+      <table class="receipt-table">
+        <tr>
+          <th>Tuition Fee Paid:</th>
+          <td>INR 3,25,000</td>
+        </tr>
+        <tr>
+          <th>Date of Payment:</th>
+          <td id="dateDisplay"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <!-- Create a button to trigger the PDF generation -->
+  <button class='print_button' onclick="generatePDF()">Generate PDF Receipt</button>
+
+  <!-- Include html2pdf.js library outside of the HTML content -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- ... Your HTML content ... -->
+
+<script>
+  // Function to read the value of a cookie by its name and parse it as JSON
+const userCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_data='));
+if (userCookie) {
+    const cookieValue = userCookie.split('=')[1];
+    try {
+      const userData = JSON.parse(decodeURIComponent(cookieValue));
+      document.getElementById("studentName").textContent = userData.name || "[Name]";
+      document.getElementById("rollNumber").textContent = userData.rollno || "[Roll No.]";
+      document.getElementById("course").textContent = userData.course || "[Course]";
+
+    } 
+    catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  }
+
+    // Get the current date
+    var currentDate = new Date();
+
+    // Extract the day, month, and year
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1; // Months are 0-based, so add 1
+    var year = currentDate.getFullYear();
+
+    // Create a formatted date string (e.g., "MM/DD/YYYY")
+    var formattedDate = month + '/' + day + '/' + year;
+
+    // Display the formatted date in an HTML element
+    document.getElementById('dateDisplay').textContent = formattedDate;
+
+
+  function generatePDF() {
+
+    var element = document.getElementById('plz');
+    var opt = {
+      margin: 0,
+      filename: 'Fee Reciept.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 1 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf(element, opt);
+  }
+</script>
+</body>
+</html>
+

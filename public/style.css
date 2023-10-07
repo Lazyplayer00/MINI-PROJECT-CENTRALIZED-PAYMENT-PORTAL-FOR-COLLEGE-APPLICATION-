@@ -1,0 +1,116 @@
+body{
+    background-color: rgb(200, 245, 0);
+}
+
+
+header {
+    text-align: right;
+    background-color: #ece8e2a2;
+    padding: 33px;
+    margin: 20px;
+    letter-spacing: 0.233em;
+    font-size: xx-large;
+    font-weight: 600;
+    font-family: Playfair Display;
+    font-style: italic;
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+  }
+
+  .logo-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 100px;
+    border-top-style: solid;
+    border-top-width: 0px;
+    margin-top: 70px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .nav-button {
+    width: 100%;
+    padding: 13px;
+    margin: 1px 0;
+    text-shadow: #af0707;
+    background-color: #d3d3d3a9;
+    backdrop-filter: blur(5px);
+    border: #0e0d0d;
+    border-radius: 12px;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: large;
+    text-decoration: none;
+  }
+  .nav-button:hover{
+    background-color: #9b9797b6;
+  }
+  .download-button {
+    padding: 10px;
+    background-color: #000000a9;
+    font-family: Playfair Display;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1.6;
+    letter-spacing: 0.235em;
+    text-decoration: none;
+  }
+  .download-button:hover {
+    background-color: #18181a;
+  }
+
+  /* Navigation menu styles */
+nav ul {
+  list-style-type: none;
+  text-align: right;
+  font-family: Playfair Display;
+  letter-spacing: 0.15;
+  font-size: xx-large;
+  font-weight: 700;
+  background-color: #4b4a4a00;
+  padding: 5px;
+  line-height: 34px;
+  
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+  font-size: 18px;
+  line-height: 52px;
+
+}
+
+/* Section styles */
+section {
+  background-color: #ffffff8c;
+  padding: 20px;
+  margin: 20px;
+  min-height: 100px;
+  border-radius: 15px;
+  font-size: x-large;
+  font-family: Playfair Display;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  letter-spacing: 0.128em;
+  line-height: 1.7;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 10;
+  background-color: #33333300;
+  font-family: Playfair Display;
+  color: #fff;
+  font-size: 14px;
+}
+

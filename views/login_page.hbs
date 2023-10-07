@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Playfair+Display">
+
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="logo-image">
+    <img src="dyp_logo.png" alt="Logo">
+  </div>
+
+  <div class="login-container">
+    <h1>Welcome</h1>
+    
+    <form action="auth/login" method="POST" id="login-form">
+      <input type="text" class="login-input" name="email" placeholder="Username" required>
+      <input type="password" class="login-input" name="password" placeholder="Password" required>
+      
+
+      <div class="g-recaptcha" data-sitekey="6LeoeIIoAAAAAMg_6q-G1XORkQWOW69rqn0eUv5V"></div>
+
+
+      <button type="submit" class="login-button">Login</button>
+    </form>
+  
+  </div>
+
+
+
+<script src="https://www.google.com/recaptcha/enterprise.js" async defer>
+
+
+
+    // Disable the back button functionality
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, null, window.location.href);
+    };
+
+    // Log out function
+    function logout() {
+    // Perform the logout action (e.g., clear session/cookies) by changing its epxiration date to 1970
+    document.cookie = 'user_email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // Redirect the user to the login page
+    window.location.href = '/login'; // Replace with the correct login page URL
+    }
+
+const loginForm = document.getElementById('login-form');
+const errorMessage = document.getElementById('error-message');
+
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+      const formData = {
+    email: document.querySelector('input[name="email"]').value,
+    password: document.querySelector('input[name="password"]').value,
+  };
+
+    try {
+        const response = await fetch('auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type to JSON
+            },
+            body: JSON.stringify(formData), // Serialize the data as JSON
+        });
+
+    if (response.ok) {// Login successful, redirect to userpage or perform other actions
+      
+      window.location.href = '/userpage';
+
+    } else if (response.status === 401) {
+
+      alert('Incorrect username or password');
+      window.location.href = '/login';
+      console.error('Fetch failed:', response.status, response.statusText);
+
+    } else {
+      // Handle other error cases
+      alert('An error occurred during login');
+      console.error('Fetch failed:', response.status, response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
+
+</script>
+
+
+
+
+<style>
+    
+body {
+    background-image: url(dy-login_bg.png);
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-weight: bold;
+  }
+
+.g-recaptcha {
+    filter: invert(0.8) hue-rotate(180deg);
+    transform:scale(0.85);transform-origin:0.5 0
+}
+
+  .logo-image {
+    position: absolute;
+    background-color: #ece8e2a4;
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    top: 5%;
+    left: 43%;
+    width: 280px;
+    height: 120px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.466);
+  }
+
+  .login-container {
+    background-color: #ece8e2a4;
+    backdrop-filter: blur(5px);
+    font-family: Playfair Display;
+    letter-spacing: 0.116em;
+    padding: 70px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.466);
+    width: 300px;
+    text-align: center;
+    font-size: xx-large;
+
+  }
+  
+  .login-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .login-input {
+    background-color: #e4e4e471;
+    backdrop-filter: blur(5px);
+    font-family: Playfair Display;
+    width: 90%;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #0000006e;
+    border-radius: 15px;
+    font-size: small;
+  }
+  
+  .login-button {
+    width: 66%;
+    padding: 12px;
+    margin: 10px 0;
+    font-family: Playfair Display;
+    letter-spacing: 0.248em;
+    font-size: medium;
+    font-weight: bold;
+    text-shadow: #0e0d0d;
+    background-color: #000000c7;
+    border: none;
+    border-radius: 15px;
+    color: #fafafa;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #000000;
+  }
+  
+
+
+</style>
+
+
+</body>
+</html>
