@@ -13,6 +13,7 @@ exports.login = (req, res) => {
   
     const email = req.body.email;
     const password = req.body.password;
+
   
     db.query('SELECT * FROM user WHERE email = ? AND password =?', [email,password], (error, results) => {
       if (error) {

@@ -13,7 +13,7 @@ const publicDirectory = path.join(__dirname, './public' );
 
 app.use(express.static(publicDirectory));
 app.use(cookieParser());//ITs self
-app.use(cors());//For Middleware CORS
+app.use(cors({ origin:'http://localhost:3000'}));//For Middleware CORS
 app.use(express.urlencoded({extended: false}));//For POST 
 app.use(express.json());//Json parsing
 

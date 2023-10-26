@@ -14,7 +14,7 @@
     width: 80%;
     margin: 20px auto;
     background-color: #ffffff;
-    border: 1px solid #ccc;
+    border: 5px solid #ccc;
     padding: 20px;
   }
 
@@ -48,7 +48,7 @@
 
   .receipt-table th,
   .receipt-table td {
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     padding: 10px;
     text-align: left;
     font-size: 16px;
@@ -64,11 +64,16 @@
 
   .receipt-table td {
     background-color: #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: 0.171em;
+    font-weight: 600;
   }
 
   .receipt-table td.total {
     font-weight: bold;
     background-color: #f5f5f5;
+    
   }
 
   .print_button {
@@ -127,13 +132,14 @@
       <table class="receipt-table">
         <tr>
           <th>Tuition Fee Paid:</th>
-          <td>INR 3,25,000</td>
+          <td>INR 1,62,500</td>
         </tr>
         <tr>
           <th>Date of Payment:</th>
           <td id="dateDisplay"></td>
         </tr>
       </table>
+      <p style="text-align:center;">*****This is computer generated invoice hence no signature required.*****</p>
     </div>
   </div>
   <!-- Create a button to trigger the PDF generation -->
@@ -182,9 +188,9 @@ if (userCookie) {
     var opt = {
       margin: 0,
       filename: 'Fee Reciept.pdf',
-      image: { type: 'jpeg', quality: 1 },
+      image: { type: 'png', quality: 1 },
       html2canvas: { scale: 1 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
     };
     html2pdf(element, opt);
   }

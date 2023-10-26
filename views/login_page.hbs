@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
   href="https://fonts.googleapis.com/css?family=Playfair+Display">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <title>Login Page</title>
 </head>
@@ -20,9 +21,11 @@
       <input type="text" class="login-input" name="email" placeholder="Username" required>
       <input type="password" class="login-input" name="password" placeholder="Password" required>
       
-
-      <div class="g-recaptcha" data-sitekey="6LeoeIIoAAAAAMg_6q-G1XORkQWOW69rqn0eUv5V"></div>
-
+        
+          
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAALbO5CfbNIGJjIm" data-theme="dark"></div>
+            
+          
 
       <button type="submit" class="login-button">Login</button>
     </form>
@@ -31,28 +34,27 @@
 
 
 
-<script src="https://www.google.com/recaptcha/enterprise.js" async defer>
+<script>
 
-
-
-    // Disable the back button functionality
+  // Disable the back button functionality
+  window.history.pushState(null, null, window.location.href);
+  window.onpopstate = function () {
     window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () {
-        window.history.pushState(null, null, window.location.href);
     };
 
-    // Log out function
-    function logout() {
+  // Log out function
+  function logout() {
     // Perform the logout action (e.g., clear session/cookies) by changing its epxiration date to 1970
     document.cookie = 'user_email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // Redirect the user to the login page
     window.location.href = '/login'; // Replace with the correct login page URL
-    }
+  }
 
 const loginForm = document.getElementById('login-form');
 const errorMessage = document.getElementById('error-message');
 
 loginForm.addEventListener('submit', async (e) => {
+
     e.preventDefault();
       const formData = {
     email: document.querySelector('input[name="email"]').value,
@@ -68,14 +70,15 @@ loginForm.addEventListener('submit', async (e) => {
             body: JSON.stringify(formData), // Serialize the data as JSON
         });
 
+
     if (response.ok) {// Login successful, redirect to userpage or perform other actions
       
       window.location.href = '/userpage';
 
     } else if (response.status === 401) {
 
-      alert('Incorrect username or password');
-      window.location.href = '/login';
+      alert('Invaild Crednetials or Capctacha');
+      
       console.error('Fetch failed:', response.status, response.statusText);
 
     } else {
@@ -97,7 +100,7 @@ loginForm.addEventListener('submit', async (e) => {
 <style>
     
 body {
-    background-image: url(dy-login_bg.png);
+    background-image: url('dy-login_bg - Copy.png');
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
     margin: 0;
@@ -110,7 +113,7 @@ body {
 
 .g-recaptcha {
     filter: invert(0.8) hue-rotate(180deg);
-    transform:scale(0.85);transform-origin:0.5 0
+    transform:scale(0.9);transform-origin:0.5 0
 }
 
   .logo-image {
@@ -119,7 +122,7 @@ body {
     backdrop-filter: blur(5px);
     border-radius: 10px;
     top: 5%;
-    left: 43%;
+    margin-left: 51%;
     width: 280px;
     height: 120px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.466);
@@ -131,6 +134,7 @@ body {
     font-family: Playfair Display;
     letter-spacing: 0.116em;
     padding: 70px;
+    margin-left: 50%;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.466);
     width: 300px;
@@ -140,7 +144,7 @@ body {
   }
   
   .login-container h1 {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   
   .login-input {
