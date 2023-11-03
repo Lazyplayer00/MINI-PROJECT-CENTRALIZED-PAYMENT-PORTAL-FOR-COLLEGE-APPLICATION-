@@ -43,6 +43,7 @@ db.connect( (error) =>{
 //Router 
 app.use('/', require('./routes/pages'))
 app.use('/auth' , require('./routes/auth'))
+app.use('/fetchfees',require('./routes/fetchfees'))
 
 
 app.listen(3000,() => {

@@ -34,15 +34,15 @@
       <thead>
         <tr>
           <th>Semester</th>
-          <th>Status</th>
+          <th>Paid</th>
           <th>Receipt</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>SEMESTER 1</td>
-          <td>PAID</td>
-          <td><a href="/pdf" class="download-button" target="_blank">View Receipt</a></td>
+          <td><span id="paid-status"></td>
+          <td><button id="view-receipt" class='download-button' onclick="viewReceipt()">View receipt</button></td>
         </tr>
         <!-- Add more rows for payment history as needed -->
       </tbody>
@@ -71,19 +71,66 @@ if (userCookie) {
     }
 }
 
-    // Disable the back button functionality
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () {
-        window.history.pushState(null, null, window.location.href);
-    };
 
-    // Log out function
-    function logout() {
-    // Perform the logout action (e.g., clear session/cookies) by changing its epxiration date to 1970
+const feeCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('fee_details='));
+if (feeCookie) {
+const cookieValue = feeCookie.split('=')[1];
+try {
+    const feeData = JSON.parse(decodeURIComponent(cookieValue));
+
+    document.getElementById('paid-status').textContent = feeData.Paid || '';
+
+
+} catch (error) {
+    console.error('Error parsing fee details from cookie:', error);
+}
+}
+
+
+function viewReceipt() {
+  const feeCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('fee_details='));
+
+  
+  if (feeCookie) {
+    const cookieValue = feeCookie.split('=')[1];
+    try {
+      const feeData = JSON.parse(decodeURIComponent(cookieValue));
+      if (feeData.Paid === "YES") {
+        document.getElementById("view-receipt").disabled = false;        
+        document.getElementById("view-receipt").onclick = function() {
+          window.open('/pdf', '_blank'); // Open the link in a new tab
+        };
+      } else {
+        // Disable the button if Paid is not 'YES'
+        document.getElementById("view-receipt").disabled = true;
+      }
+    } catch (error) {
+      console.error('Error parsing fee details from cookie:', error);
+    }
+  }
+}
+
+viewReceipt();
+
+
+// Disable the back button functionality
+window.history.pushState(null, null, window.location.href);
+window.onpopstate = function () {
+    window.history.pushState(null, null, window.location.href);
+};
+
+
+// Log out function
+function logout() {
+    // Delete user_data cookie
     document.cookie = 'user_data=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+    // Delete fee_details cookie
+    document.cookie = 'fee_details=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
     // Redirect the user to the login page
     window.location.href = '/login'; // Replace with the correct login page URL
-    }
+}
 </script>
 
 

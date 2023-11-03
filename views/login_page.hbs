@@ -21,11 +21,9 @@
       <input type="text" class="login-input" name="email" placeholder="Username" required>
       <input type="password" class="login-input" name="password" placeholder="Password" required>
       
-        
-          
+           
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAALbO5CfbNIGJjIm" data-theme="dark"></div>
             
-          
 
       <button type="submit" class="login-button">Login</button>
     </form>
@@ -37,18 +35,18 @@
 <script>
 
   // Disable the back button functionality
+window.history.pushState(null, null, window.location.href);
+window.onpopstate = function () {
   window.history.pushState(null, null, window.location.href);
-  window.onpopstate = function () {
-    window.history.pushState(null, null, window.location.href);
-    };
+  };
 
   // Log out function
-  function logout() {
+function logout() {
     // Perform the logout action (e.g., clear session/cookies) by changing its epxiration date to 1970
-    document.cookie = 'user_email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie = 'user_email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // Redirect the user to the login page
-    window.location.href = '/login'; // Replace with the correct login page URL
-  }
+  window.location.href = '/login'; // Replace with the correct login page URL
+}
 
 const loginForm = document.getElementById('login-form');
 const errorMessage = document.getElementById('error-message');
@@ -158,7 +156,7 @@ body {
     margin: 10px 0;
     border: 1px solid #0000006e;
     border-radius: 15px;
-    font-size: small;
+    font-size: 15px;
   }
   
   .login-button {
