@@ -21,4 +21,4 @@ Technologies
 ![WhatsApp Image 2023-10-07 at 18 00 03_84923921](https://github.com/Lazyplayer00/MINI-PROJECT-CENTRALIZED-PAYMENT-PORTAL-FOR-COLLEGE-APPLICATION-/assets/143280861/c1d5fc9e-f3c2-42e9-9d89-ddb53ba8f7d1)
 
 
-This might be small and trival to anyone passing by but for me it took me 3 months and it porbabaly took 3 years of my life.
+This might be small and trival to anyone passing by but for me it took me 3 months and it porbabaly took 3 years off my life.
