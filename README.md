@@ -47,7 +47,44 @@ Built with Node.js, Express and MySQL.
 
 ## Screens
 
-Screenshots of the original 2023 build are in [`screenshots/`](screenshots/).
+### Sign in
+
+Session cookies are `httpOnly`, so the captcha and credential handling are the
+only client-side concerns on this page.
+
+![Sign in](docs/screenshots/login.jpg)
+
+### Fee dashboard
+
+Every semester's tuition, fine, scholarship, amount paid and outstanding
+balance, with status derived from the balance and the due date.
+
+![Fee dashboard](docs/screenshots/dashboard.png)
+
+### Checkout
+
+Part payments are permitted up to the balance. The sandbox gateway's test card
+numbers are documented inline, so the failure paths are reachable during a
+demonstration.
+
+![Checkout](docs/screenshots/checkout.png)
+
+### Payment history
+
+Failed attempts are kept alongside successful ones, with the gateway's reason.
+Receipts are available for successful payments only.
+
+![Payment history](docs/screenshots/payments.png)
+
+### Error pages and small screens
+
+<p>
+  <img src="docs/screenshots/error-404.jpg" alt="404 page" width="62%">
+  <img src="docs/screenshots/mobile-dashboard.png" alt="Dashboard on a phone" width="19%">
+</p>
+
+Screenshots of the original 2023 build are kept in
+[`screenshots/`](screenshots/) for comparison.
 
 ## Getting started
 
