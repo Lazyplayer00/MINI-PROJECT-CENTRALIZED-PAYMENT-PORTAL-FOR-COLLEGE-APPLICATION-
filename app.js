@@ -1,51 +1,73 @@
-const express = require("express");
-const mysql = require("mysql");
-const dotenv = require("dotenv");
+"use strict";
+
 const path = require("path");
-const exp = require("constants");
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const express = require("express");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const hbs = require("hbs");
+
+const config = require("./config");
+const routes = require("./routes");
+const { attachStudent } = require("./middleware/requireAuth");
+const { handleNotFound, handleError } = require("./middleware/errorHandler");
+
 const app = express();
 
-dotenv.config({path: './.env' })
+// ---- View engine ---------------------------------------------------------
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
-const publicDirectory = path.join(__dirname, './public' );
+hbs.registerHelper("eq", (a, b) => a === b);
+hbs.registerHelper("year", () => new Date().getFullYear());
 
-app.use(express.static(publicDirectory));
-app.use(cookieParser());//ITs self
-app.use(cors({ origin:'http://localhost:3000'}));//For Middleware CORS
-app.use(express.urlencoded({extended: false}));//For POST 
-app.use(express.json());//Json parsing
+// ---- Security ------------------------------------------------------------
+// Turnstile needs to load its script and frame from Cloudflare, so the default
+// CSP is extended for exactly those origins rather than being switched off.
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://challenges.cloudflare.com"],
+        frameSrc: ["'self'", "https://challenges.cloudflare.com"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        formAction: ["'self'"],
+      },
+    },
+    // Receipts are streamed as downloads; the default policy blocks that.
+    crossOriginResourcePolicy: { policy: "same-origin" },
+  })
+);
 
-const db = mysql.createConnection({
-    
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DATABASE
-    
-})
+// Behind a reverse proxy this makes req.ip the real client address, which the
+// rate limiter and captcha verification both depend on.
+if (config.isProduction) {
+  app.set("trust proxy", 1);
+}
 
+// ---- Request parsing -----------------------------------------------------
+app.use(express.urlencoded({ extended: false, limit: "16kb" }));
+app.use(express.json({ limit: "16kb" }));
+app.use(cookieParser());
 
-app.set('view engine' , 'hbs');
+// ---- Static assets -------------------------------------------------------
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    maxAge: config.isProduction ? "7d" : 0,
+  })
+);
 
+// ---- Application ---------------------------------------------------------
+app.use(attachStudent);
+app.use(routes);
 
-db.connect( (error) =>{
-    if (error) {
-        console.log(error)
-    } 
-    else{
-        console.log("Database is Connected")
-    }
-} )
+// ---- Errors --------------------------------------------------------------
+app.use(handleNotFound);
+app.use(handleError);
 
-
-//Router 
-app.use('/', require('./routes/pages'))
-app.use('/auth' , require('./routes/auth'))
-app.use('/fetchfees',require('./routes/fetchfees'))
-
-
-app.listen(3000,() => {
-    console.log("Server is on port http://localhost:3000");
-})
+module.exports = app;
