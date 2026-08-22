@@ -94,7 +94,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 
 /* ---- Identity strip ----------------------------------------------------- */
 
-.identity { padding: 30px 28px 8px; }
+/* Shares the page container's measure so the name aligns with the panels. */
+.identity { max-width: 1080px; margin: 0 auto; padding: 30px 28px 8px; }
 .identity h1 { font-size: 30px; font-style: italic; }
 .identity-meta {
   display: flex; flex-wrap: wrap; gap: 8px 18px;
@@ -149,7 +150,19 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 
 /* ---- Tables ------------------------------------------------------------- */
 
-.table-scroll { overflow-x: auto; margin: 0 -6px; padding: 0 6px; }
+/*
+ * position: relative is load-bearing. The .sr-only spans inside the table are
+ * absolutely positioned; without a positioned ancestor they resolve against
+ * the initial containing block, escape this container's overflow clipping and
+ * stretch the document's scroll width on narrow screens.
+ */
+.table-scroll {
+  position: relative;
+  overflow-x: auto;
+  margin: 0 -6px;
+  padding: 0 6px;
+  -webkit-overflow-scrolling: touch;
+}
 
 .table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .table th {
@@ -166,6 +179,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 .table tbody tr:last-child td { border-bottom: 0; }
 .table tbody tr:hover { background: #faf9f7; }
 .table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.table .nowrap { white-space: nowrap; }
 .table td small { display: block; font-size: 12px; }
 
 .reference { font-size: 12px; color: var(--ink-muted); }
@@ -229,7 +243,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
   display: flex; align-items: center; gap: 7px;
   padding: 9px 15px;
   border: 1px solid var(--line); border-radius: var(--radius-sm);
-  cursor: pointer; text-transform: capitalize; font-size: 14px;
+  cursor: pointer; font-size: 14px;
 }
 .radio:has(input:checked) { border-color: var(--accent); background: var(--overdue-bg); }
 
@@ -242,17 +256,41 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .
 
 /* ---- Auth / error shell ------------------------------------------------- */
 
+/*
+ * The campus photograph sits behind the sign-in and error cards only. The
+ * dashboard deliberately stays on the plain canvas -- a photograph behind
+ * dense figures costs legibility and buys nothing.
+ *
+ * The gradient scrim is not decoration: it holds the card's contrast steady
+ * regardless of which part of the photo ends up behind it at a given viewport.
+ */
 .auth-shell {
+  position: relative;
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
   padding: 40px 20px;
+  background:
+    linear-gradient(180deg, rgba(24, 20, 16, .58), rgba(24, 20, 16, .72)),
+    url("/img/campus.jpg") center / cover no-repeat fixed;
 }
+
+/* `fixed` attachment janks badly on touch devices, so pin it only on pointer
+   devices with room for it. */
+@media (hover: none), (max-width: 620px) {
+  .auth-shell { background-attachment: scroll; }
+}
+
 .auth-card {
+  position: relative;
   width: 100%; max-width: 400px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .94);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  backdrop-filter: blur(14px) saturate(115%);
+  border: 1px solid rgba(255, 255, 255, .5);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 2px 6px rgba(12, 10, 8, .18),
+    0 24px 60px rgba(12, 10, 8, .32);
   padding: 38px 32px;
   text-align: center;
 }

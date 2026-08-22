@@ -30,7 +30,10 @@ async function showCheckout(req, res, next) {
         balanceRaw: money.toRupees(balancePaise),
       },
       settled: balancePaise <= 0,
-      methods: [...paymentService.METHODS],
+      methods: [...paymentService.METHODS].map((value) => ({
+        value,
+        label: paymentService.METHOD_LABELS[value],
+      })),
     });
   } catch (error) {
     return next(error);

@@ -3,6 +3,20 @@
 const config = require("../config");
 const { notFound } = require("../lib/errors");
 
+/**
+ * Human titles for the error page. The status number is already displayed
+ * above the title, so repeating "Error 404" underneath it says nothing.
+ */
+const TITLES = {
+  400: "That request was not valid",
+  401: "Sign in to continue",
+  402: "Payment could not be completed",
+  403: "You do not have access",
+  404: "Page not found",
+  429: "Too many attempts",
+  500: "Something went wrong",
+};
+
 /** Turns an unmatched route into a 404 that flows through the error handler. */
 function handleNotFound(req, res, next) {
   next(notFound(`No route matches ${req.method} ${req.originalUrl}`));
@@ -50,7 +64,7 @@ function handleError(error, req, res, next) {
   }
 
   return res.status(status).render("error", {
-    title: `Error ${status}`,
+    title: TITLES[status] ?? "Something went wrong",
     status,
     message,
     showLoginLink: status === 401 || status === 403,

@@ -4,6 +4,7 @@ const fees = require("../repositories/feeRepository");
 const payments = require("../repositories/paymentRepository");
 const money = require("../lib/money");
 const { formatDate } = require("../services/receiptService");
+const { METHOD_LABELS } = require("../services/paymentService");
 
 /** Shapes a fee row for display, deriving status from the balance and date. */
 function presentFee(fee, today = new Date()) {
@@ -77,7 +78,7 @@ async function showHistory(req, res, next) {
         amount: money.format(money.toPaise(payment.amount), {
           currency: payment.currency,
         }),
-        method: payment.method.toUpperCase(),
+        method: METHOD_LABELS[payment.method] ?? payment.method,
         status: payment.status,
         successful: payment.status === "successful",
         failureReason: payment.failureReason,

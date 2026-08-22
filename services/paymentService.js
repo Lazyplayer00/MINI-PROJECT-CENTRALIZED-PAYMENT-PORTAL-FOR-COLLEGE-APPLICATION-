@@ -11,6 +11,16 @@ const { badRequest, notFound, paymentFailed } = require("../lib/errors");
 const METHODS = new Set(["card", "netbanking", "upi"]);
 
 /**
+ * Display labels for each method. CSS `text-transform: capitalize` cannot be
+ * used here -- it renders "upi" as "Upi" rather than the acronym.
+ */
+const METHOD_LABELS = {
+  card: "Card",
+  netbanking: "Net banking",
+  upi: "UPI",
+};
+
+/**
  * Validates a requested payment against the fee it settles.
  *
  * Pure and side-effect free so it can be unit tested without a database, and
@@ -122,4 +132,4 @@ async function payFee({ studentId, collegeCode, feeId, amount, method, instrumen
   return outcome;
 }
 
-module.exports = { validatePayment, payFee, METHODS };
+module.exports = { validatePayment, payFee, METHODS, METHOD_LABELS };

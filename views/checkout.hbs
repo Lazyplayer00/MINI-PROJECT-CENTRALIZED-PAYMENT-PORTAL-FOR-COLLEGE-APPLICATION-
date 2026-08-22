@@ -25,8 +25,9 @@
         <div class="radio-row">
           {{#each methods}}
           <label class="radio">
-            <input type="radio" name="method" value="{{this}}" {{#if (eq this "card")}}checked{{/if}}>
-            <span>{{this}}</span>
+            <input type="radio" name="method" value="{{this.value}}"
+                   {{#if (eq this.value "card")}}checked{{/if}}>
+            <span>{{this.label}}</span>
           </label>
           {{/each}}
         </div>

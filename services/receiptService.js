@@ -2,6 +2,7 @@
 
 const PDFDocument = require("pdfkit");
 const money = require("../lib/money");
+const { METHOD_LABELS } = require("./paymentService");
 
 const ACCENT = "#a51818";
 const INK = "#1a1a1a";
@@ -112,7 +113,7 @@ function streamReceipt(res, { payment, student }) {
   sectionRule();
 
   row("Semester", `Semester ${payment.semester} (${payment.academicYear})`);
-  row("Payment method", payment.method.toUpperCase());
+  row("Payment method", METHOD_LABELS[payment.method] ?? payment.method);
   row("Transaction date", formatDate(payment.completedAt ?? payment.createdAt));
   row("Status", payment.status.toUpperCase());
   sectionRule();
