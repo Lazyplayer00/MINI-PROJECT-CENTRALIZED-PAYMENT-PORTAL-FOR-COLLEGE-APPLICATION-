@@ -1,0 +1,12 @@
+<main class="auth-shell">
+  <div class="auth-card auth-card--error">
+    <p class="error-status">{{status}}</p>
+    <h1>{{title}}</h1>
+    <p class="auth-subtitle">{{message}}</p>
+    {{#if showLoginLink}}
+    <a class="btn btn--primary btn--block" href="/login">Go to sign in</a>
+    {{else}}
+    <a class="btn btn--primary btn--block" href="/dashboard">Back to dashboard</a>
+    {{/if}}
+  </div>
+</main>

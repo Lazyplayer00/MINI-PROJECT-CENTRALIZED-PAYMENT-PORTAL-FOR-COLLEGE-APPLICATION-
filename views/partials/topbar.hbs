@@ -1,0 +1,26 @@
+<header class="topbar">
+  <a class="brand" href="/dashboard">
+    <img src="/img/logo.png" alt="" class="brand-mark">
+    <span class="brand-text">
+      <strong>Centralised Payment Portal</strong>
+      <small>{{student.collegeName}}</small>
+    </span>
+  </a>
+
+  <nav class="topbar-nav">
+    <a href="/dashboard" class="nav-link {{#if (eq active 'dashboard')}}is-active{{/if}}">Fees</a>
+    <a href="/payments" class="nav-link {{#if (eq active 'payments')}}is-active{{/if}}">History</a>
+    <form method="POST" action="/auth/logout" class="logout-form">
+      <button type="submit" class="nav-link nav-link--button">Sign out</button>
+    </form>
+  </nav>
+</header>
+
+<section class="identity">
+  <h1>{{student.name}}</h1>
+  <p class="identity-meta">
+    <span>{{student.rollNo}}</span>
+    <span>{{student.course}}</span>
+    {{#if student.division}}<span>Division {{student.division}}</span>{{/if}}
+  </p>
+</section>

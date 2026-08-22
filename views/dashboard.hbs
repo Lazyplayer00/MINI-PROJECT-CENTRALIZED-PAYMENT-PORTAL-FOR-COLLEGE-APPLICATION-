@@ -1,0 +1,71 @@
+{{> topbar active="dashboard"}}
+
+<main class="page">
+  <section class="panel panel--summary">
+    <div>
+      <p class="panel-label">Total outstanding</p>
+      <p class="figure {{#unless hasOutstanding}}figure--settled{{/unless}}">{{outstanding}}</p>
+    </div>
+    {{#if nextPayable}}
+    <a class="btn btn--primary" href="/pay/{{nextPayable.id}}">
+      Pay semester {{nextPayable.semester}}
+    </a>
+    {{else}}
+    <p class="panel-note">All semesters are settled.</p>
+    {{/if}}
+  </section>
+
+  <section class="panel">
+    <h2>Fee records</h2>
+
+    {{#if fees.length}}
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Semester</th>
+            <th>Due</th>
+            <th class="num">Tuition</th>
+            <th class="num">Fine</th>
+            <th class="num">Scholarship</th>
+            <th class="num">Paid</th>
+            <th class="num">Balance</th>
+            <th>Status</th>
+            <th><span class="sr-only">Action</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each fees}}
+          <tr>
+            <td>
+              <strong>Semester {{this.semester}}</strong>
+              <small class="muted">{{this.academicYear}}</small>
+            </td>
+            <td>{{this.dueDate}}</td>
+            <td class="num">{{this.tuition}}</td>
+            <td class="num">{{this.fine}}</td>
+            <td class="num">{{this.scholarship}}</td>
+            <td class="num">{{this.paid}}</td>
+            <td class="num"><strong>{{this.balance}}</strong></td>
+            <td>
+              <span class="badge badge--{{#if this.settled}}paid{{else if this.overdue}}overdue{{else}}due{{/if}}">
+                {{this.status}}
+              </span>
+            </td>
+            <td class="num">
+              {{#unless this.settled}}
+              <a class="btn btn--small" href="/pay/{{this.id}}">Pay</a>
+              {{/unless}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{else}}
+    <p class="empty">No fee records have been raised for your account yet.</p>
+    {{/if}}
+  </section>
+</main>
+
+{{> footer}}

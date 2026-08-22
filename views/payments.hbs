@@ -1,0 +1,61 @@
+{{> topbar active="payments"}}
+
+<main class="page">
+  <section class="panel panel--summary">
+    <div>
+      <p class="panel-label">Total successfully paid</p>
+      <p class="figure">{{totalPaid}}</p>
+    </div>
+    <p class="panel-note">{{attempts}} transaction{{#unless (eq attempts 1)}}s{{/unless}} on record</p>
+  </section>
+
+  <section class="panel">
+    <h2>Payment history</h2>
+
+    {{#if isEmpty}}
+    <p class="empty">You have not made any payments yet.</p>
+    {{else}}
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Reference</th>
+            <th>Semester</th>
+            <th>Method</th>
+            <th class="num">Amount</th>
+            <th>Status</th>
+            <th><span class="sr-only">Receipt</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each payments}}
+          <tr>
+            <td>{{this.date}}</td>
+            <td><code class="reference">{{this.reference}}</code></td>
+            <td>Semester {{this.semester}} <small class="muted">{{this.academicYear}}</small></td>
+            <td>{{this.method}}</td>
+            <td class="num">{{this.amount}}</td>
+            <td>
+              <span class="badge badge--{{#if this.successful}}paid{{else}}overdue{{/if}}">
+                {{this.status}}
+              </span>
+              {{#if this.failureReason}}
+              <small class="muted block">{{this.failureReason}}</small>
+              {{/if}}
+            </td>
+            <td class="num">
+              {{#if this.successful}}
+              <a class="btn btn--small" href="/receipts/{{this.reference}}">Receipt</a>
+              {{/if}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/if}}
+  </section>
+</main>
+
+{{> footer}}

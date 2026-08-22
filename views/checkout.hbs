@@ -1,0 +1,57 @@
+{{> topbar active="dashboard"}}
+
+<main class="page page--narrow">
+  <section class="panel">
+    <a href="/dashboard" class="back-link">&larr; Back to fees</a>
+    <h2>Semester {{fee.semester}} <small class="muted">{{fee.academicYear}}</small></h2>
+
+    {{#if settled}}
+    <p class="empty">This semester is already fully paid.</p>
+    {{else}}
+
+    <p class="panel-label">Outstanding balance</p>
+    <p class="figure">{{fee.balance}}</p>
+
+    <form id="payment-form" data-fee-id="{{fee.id}}" data-balance="{{fee.balanceRaw}}">
+      <label class="field">
+        <span class="field-label">Amount to pay</span>
+        <input type="text" name="amount" inputmode="decimal"
+               value="{{fee.balanceRaw}}" required>
+        <small class="field-hint">Part payments are allowed, up to the balance.</small>
+      </label>
+
+      <fieldset class="field">
+        <legend class="field-label">Payment method</legend>
+        <div class="radio-row">
+          {{#each methods}}
+          <label class="radio">
+            <input type="radio" name="method" value="{{this}}" {{#if (eq this "card")}}checked{{/if}}>
+            <span>{{this}}</span>
+          </label>
+          {{/each}}
+        </div>
+      </fieldset>
+
+      <label class="field" id="instrument-field">
+        <span class="field-label">Card number</span>
+        <input type="text" name="instrument" inputmode="numeric"
+               placeholder="4111 1111 1111 1111" maxlength="19" autocomplete="off">
+        <small class="field-hint">
+          Sandbox gateway &mdash; no real card is charged.
+          Ending <code>0000</code> simulates a decline, <code>0119</code> a gateway error.
+        </small>
+      </label>
+
+      <p class="form-error" id="payment-error" role="alert" hidden></p>
+      <p class="form-success" id="payment-success" role="status" hidden></p>
+
+      <button type="submit" class="btn btn--primary btn--block" id="payment-submit">
+        Pay {{fee.balance}}
+      </button>
+    </form>
+    {{/if}}
+  </section>
+</main>
+
+{{> footer}}
+<script src="/js/checkout.js" defer></script>

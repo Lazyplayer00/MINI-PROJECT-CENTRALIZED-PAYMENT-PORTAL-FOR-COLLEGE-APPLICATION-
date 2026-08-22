@@ -1,0 +1,35 @@
+<main class="auth-shell">
+  <div class="auth-card">
+    <img src="/img/logo.png" alt="" class="auth-logo">
+    <h1>Welcome back</h1>
+    <p class="auth-subtitle">Sign in to view and pay your college fees.</p>
+
+    <form id="login-form" method="POST" action="/auth/login" novalidate>
+      <input type="hidden" name="next" value="{{next}}">
+
+      <label class="field">
+        <span class="field-label">Email address</span>
+        <input type="email" name="email" autocomplete="username"
+               placeholder="you@example.edu" required>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Password</span>
+        <input type="password" name="password" autocomplete="current-password"
+               placeholder="••••••••" required minlength="8">
+      </label>
+
+      {{#if captchaEnabled}}
+      <div class="cf-turnstile" data-sitekey="{{turnstileSiteKey}}" data-theme="light"></div>
+      {{/if}}
+
+      <p class="form-error" id="login-error" role="alert" hidden></p>
+
+      <button type="submit" class="btn btn--primary btn--block" id="login-submit">
+        Sign in
+      </button>
+    </form>
+  </div>
+</main>
+
+<script src="/js/login.js" defer></script>
